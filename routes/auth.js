@@ -16,6 +16,7 @@ const userValidate = [
 
 router.post('/login', authController.login);
 router.post('/register',userValidate, authController.register);
+router.post('/verify-token', authController.verifyToken);
 router.post('/forgot-password', authController.forgotPassword);
 router.post('/reset-password', authController.resetPassword);
 router.post('/verify-otp', authController.verifyOtp);

@@ -92,6 +92,17 @@ exports.register = async function (req, res) {
         })
     }
 }
+exports.verifyToken = async function (req, res) {
+    try {
+        
+    } catch (error) {
+        return res.status(500).json({
+            type: error.name,
+            message: error.message,
+        })
+        
+    }
+}
 exports.forgotPassword = async function (req, res) {}
 exports.resetPassword = async function (req, res) {}
 exports.verifyOtp = async function (req, res) {}
