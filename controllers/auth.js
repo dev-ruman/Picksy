@@ -94,6 +94,21 @@ exports.register = async function (req, res) {
 }
 exports.verifyToken = async function (req, res) {
     try {
+        let accessToken = req.headers.authorization;
+        if(!accessToken) return res.json(false);
+        accessToken = accessToken.replace('Bearer ', '');
+
+        const token = await Token.findOne({accessToken});
+        if(!token) return res.json(false);
+
+        const tokenData = JsonWebToken.decode(token.refreshToken);
+
+        const user = await User.findById(tokenData.id);
+        if(!user) return res.json(false);
+
+        const isValid = JsonWebToken.verify(token.refreshToken, process.env.REFRESH_TOKEN_SECRET);
+        if(!isValid) return res.json(false);
+        return res.json(true);
         
     } catch (error) {
         return res.status(500).json({
