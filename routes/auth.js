@@ -14,11 +14,15 @@ const userValidate = [
     body('phone').isMobilePhone().withMessage('Please enter a valid phone number'),
 ]
 
+const validatePassword = [
+    body('newPassword').isLength({min: 6}).withMessage('Password must be at least 6 characters long').isStrongPassword().withMessage('Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character'),
+]
+
 router.post('/login', authController.login);
-router.post('/register',userValidate, authController.register);
+router.post('/register', userValidate, authController.register);
 router.post('/verify-token', authController.verifyToken);
 router.post('/forgot-password', authController.forgotPassword);
-router.post('/reset-password', authController.resetPassword);
+router.post('/reset-password', validatePassword, authController.resetPassword);
 router.post('/verify-otp', authController.verifyOtp);
 router.post('/logout', authController.logout);
 
